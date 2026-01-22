@@ -1,0 +1,3178 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Academy OS - Etheria Academy</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #0a0e27;
+            color: #e0e0e0;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .app-container {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 100%);
+        }
+
+        /* Header */
+        .header {
+            background: rgba(15, 20, 40, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(100, 150, 255, 0.2);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .logo-text h1 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #fff;
+        }
+
+        .logo-text p {
+            font-size: 0.75rem;
+            color: #888;
+            margin-top: 2px;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .user-avatar {
+            width: 35px;
+            height: 35px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+        }
+
+        /* Login Screen */
+        .login-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 2rem;
+        }
+
+        .login-box {
+            background: rgba(20, 25, 45, 0.9);
+            border: 1px solid rgba(100, 150, 255, 0.2);
+            border-radius: 12px;
+            padding: 3rem;
+            width: 100%;
+            max-width: 400px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+        }
+
+        .login-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .login-header h2 {
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+            color: #fff;
+        }
+
+        .login-header p {
+            color: #888;
+            font-size: 0.9rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #aaa;
+            font-size: 0.9rem;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 0.75rem;
+            background: rgba(30, 35, 55, 0.8);
+            border: 1px solid rgba(100, 150, 255, 0.3);
+            border-radius: 6px;
+            color: #fff;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .btn {
+            width: 100%;
+            padding: 0.875rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            border-radius: 6px;
+            color: #fff;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        /* Main Content */
+        .main-content {
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .welcome-section {
+            background: rgba(20, 25, 45, 0.6);
+            border: 1px solid rgba(100, 150, 255, 0.2);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .welcome-section h2 {
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+            color: #fff;
+        }
+
+        .welcome-section p {
+            color: #888;
+        }
+
+        /* Navigation Cards */
+        .nav-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .nav-card {
+            background: rgba(20, 25, 45, 0.6);
+            border: 1px solid rgba(100, 150, 255, 0.2);
+            border-radius: 12px;
+            padding: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nav-card:hover {
+            transform: translateY(-5px);
+            border-color: #667eea;
+            box-shadow: 0 8px 24px rgba(102, 126, 234, 0.2);
+        }
+
+        .nav-card.locked {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .nav-card.locked:hover {
+            transform: none;
+            box-shadow: none;
+        }
+
+        .nav-card-icon {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .nav-card h3 {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            color: #fff;
+        }
+
+        .nav-card p {
+            color: #888;
+            font-size: 0.9rem;
+        }
+
+        .lock-badge {
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            background: rgba(255, 50, 50, 0.2);
+            border: 1px solid rgba(255, 50, 50, 0.4);
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            color: #ff6b6b;
+        }
+
+        /* Levels Section */
+        .levels-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .level-card {
+            background: rgba(20, 25, 45, 0.6);
+            border: 1px solid rgba(100, 150, 255, 0.2);
+            border-radius: 12px;
+            padding: 2rem;
+            position: relative;
+            transition: all 0.3s;
+        }
+
+        .level-card:hover:not(.locked) {
+            transform: translateY(-5px);
+            border-color: #667eea;
+        }
+
+        .level-card.locked {
+            opacity: 0.6;
+            background: rgba(40, 20, 20, 0.4);
+            border-color: rgba(255, 50, 50, 0.3);
+        }
+
+        .level-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .level-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #fff;
+        }
+
+        .level-status {
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .status-available {
+            background: rgba(50, 255, 150, 0.2);
+            color: #50ffa0;
+            border: 1px solid rgba(50, 255, 150, 0.3);
+        }
+
+        .status-locked {
+            background: rgba(255, 50, 50, 0.2);
+            color: #ff6b6b;
+            border: 1px solid rgba(255, 50, 50, 0.3);
+        }
+
+        .level-description {
+            color: #888;
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .level-stats {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .stat-item {
+            flex: 1;
+            min-width: 100px;
+            background: rgba(30, 35, 55, 0.6);
+            padding: 0.75rem;
+            border-radius: 6px;
+            border: 1px solid rgba(100, 150, 255, 0.1);
+        }
+
+        .stat-label {
+            font-size: 0.75rem;
+            color: #888;
+            margin-bottom: 0.25rem;
+        }
+
+        .stat-value {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #fff;
+        }
+
+        /* Announcements */
+        .announcement-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .announcement-item {
+            background: rgba(20, 25, 45, 0.6);
+            border: 1px solid rgba(100, 150, 255, 0.2);
+            border-radius: 8px;
+            padding: 1.5rem;
+            transition: all 0.3s;
+        }
+
+        .announcement-item:hover {
+            border-color: #667eea;
+            transform: translateX(-5px);
+        }
+
+        .announcement-item.warning {
+            border-color: rgba(255, 200, 50, 0.3);
+            background: rgba(50, 40, 20, 0.4);
+        }
+
+        .announcement-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.75rem;
+        }
+
+        .announcement-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #fff;
+        }
+
+        .announcement-date {
+            font-size: 0.8rem;
+            color: #888;
+        }
+
+        .announcement-body {
+            color: #aaa;
+            line-height: 1.6;
+        }
+
+        /* Profile */
+        .profile-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .profile-header {
+            background: rgba(20, 25, 45, 0.6);
+            border: 1px solid rgba(100, 150, 255, 0.2);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .profile-avatar {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+        }
+
+        .profile-info h2 {
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+            color: #fff;
+        }
+
+        .profile-info p {
+            color: #888;
+            margin-bottom: 0.25rem;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .info-card {
+            background: rgba(20, 25, 45, 0.6);
+            border: 1px solid rgba(100, 150, 255, 0.2);
+            border-radius: 12px;
+            padding: 1.5rem;
+        }
+
+        .info-card h3 {
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            color: #fff;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px solid rgba(100, 150, 255, 0.2);
+        }
+
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid rgba(100, 150, 255, 0.1);
+        }
+
+        .info-row:last-child {
+            border-bottom: none;
+        }
+
+        .info-label {
+            color: #888;
+        }
+
+        .info-value {
+            color: #fff;
+            font-weight: 500;
+        }
+
+        /* Glitch Effect */
+        .glitch {
+            animation: glitch 2s infinite;
+        }
+
+        @keyframes glitch {
+            0%, 90%, 100% {
+                transform: translate(0);
+            }
+            92% {
+                transform: translate(-2px, 2px);
+            }
+            94% {
+                transform: translate(2px, -2px);
+            }
+            96% {
+                transform: translate(-2px, -2px);
+            }
+        }
+
+        /* Error Message */
+        .error-message {
+            background: rgba(255, 50, 50, 0.1);
+            border: 1px solid rgba(255, 50, 50, 0.3);
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+            color: #ff6b6b;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+        }
+
+        /* Back Button */
+        .back-button {
+            background: rgba(30, 35, 55, 0.8);
+            border: 1px solid rgba(100, 150, 255, 0.3);
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            color: #fff;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-bottom: 1.5rem;
+            display: inline-block;
+        }
+
+        .back-button:hover {
+            border-color: #667eea;
+            transform: translateX(5px);
+        }
+
+        /* Loading Animation */
+        .loading {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 60vh;
+        }
+
+        .loading-spinner {
+            width: 50px;
+            height: 50px;
+            border: 3px solid rgba(100, 150, 255, 0.2);
+            border-top-color: #667eea;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header {
+                padding: 1rem;
+            }
+
+            .main-content {
+                padding: 1rem;
+            }
+
+            .nav-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .profile-header {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+
+        /* Division Detail Styles */
+        .detail-header {
+            background: rgba(20, 25, 45, 0.6);
+            border: 1px solid rgba(100, 150, 255, 0.2);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .detail-title {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            color: #fff;
+        }
+
+        .detail-description {
+            color: #888;
+            margin-bottom: 1rem;
+        }
+
+        .tabs-container {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            border-bottom: 1px solid rgba(100, 150, 255, 0.2);
+        }
+
+        .tab {
+            padding: 0.75rem 1.5rem;
+            background: transparent;
+            border: none;
+            color: #888;
+            cursor: pointer;
+            transition: all 0.3s;
+            border-bottom: 2px solid transparent;
+            font-size: 1rem;
+        }
+
+        .tab:hover {
+            color: #fff;
+        }
+
+        .tab.active {
+            color: #667eea;
+            border-bottom-color: #667eea;
+        }
+
+        .content-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .lesson-item, .challenge-item, .exam-item {
+            background: rgba(20, 25, 45, 0.6);
+            border: 1px solid rgba(100, 150, 255, 0.2);
+            border-radius: 8px;
+            padding: 1.5rem;
+            transition: all 0.3s;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .lesson-item:hover, .challenge-item:hover, .exam-item:hover {
+            border-color: #667eea;
+            transform: translateX(-5px);
+        }
+
+        .lesson-item.completed {
+            border-color: rgba(50, 255, 150, 0.3);
+            background: rgba(20, 40, 30, 0.4);
+        }
+
+        .item-content {
+            flex: 1;
+        }
+
+        .item-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #fff;
+            margin-bottom: 0.5rem;
+        }
+
+        .item-meta {
+            display: flex;
+            gap: 1rem;
+            font-size: 0.85rem;
+            color: #888;
+        }
+
+        .difficulty-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .difficulty-easy {
+            background: rgba(50, 255, 150, 0.2);
+            color: #50ffa0;
+            border: 1px solid rgba(50, 255, 150, 0.3);
+        }
+
+        .difficulty-medium {
+            background: rgba(255, 200, 50, 0.2);
+            color: #ffc850;
+            border: 1px solid rgba(255, 200, 50, 0.3);
+        }
+
+        .difficulty-hard {
+            background: rgba(255, 100, 100, 0.2);
+            color: #ff6b6b;
+            border: 1px solid rgba(255, 100, 100, 0.3);
+        }
+
+        .difficulty-advanced {
+            background: rgba(150, 50, 255, 0.2);
+            color: #a050ff;
+            border: 1px solid rgba(150, 50, 255, 0.3);
+        }
+
+        .status-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .status-completed {
+            background: rgba(50, 255, 150, 0.2);
+            color: #50ffa0;
+            border: 1px solid rgba(50, 255, 150, 0.3);
+        }
+
+        .status-upcoming {
+            background: rgba(100, 150, 255, 0.2);
+            color: #6496ff;
+            border: 1px solid rgba(100, 150, 255, 0.3);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 3rem;
+            color: #888;
+        }
+
+        .empty-state-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            opacity: 0.5;
+        }
+
+        /* Modal Styles */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            padding: 1rem;
+        }
+
+        .modal-content {
+            background: rgba(20, 25, 45, 0.95);
+            border: 1px solid rgba(100, 150, 255, 0.3);
+            border-radius: 12px;
+            padding: 2rem;
+            max-width: 500px;
+            width: 100%;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-title {
+            font-size: 1.5rem;
+            color: #fff;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            color: #888;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .modal-close:hover {
+            color: #fff;
+        }
+
+        /* Chat Styles */
+        .chat-container {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 1rem;
+            height: calc(100vh - 150px);
+        }
+
+        .chat-sidebar {
+            background: rgba(20, 25, 45, 0.6);
+            border: 1px solid rgba(100, 150, 255, 0.2);
+            border-radius: 12px;
+            padding: 1rem;
+            overflow-y: auto;
+        }
+
+        .chat-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .chat-item {
+            padding: 1rem;
+            background: rgba(30, 35, 55, 0.6);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 1px solid transparent;
+        }
+
+        .chat-item:hover {
+            border-color: #667eea;
+            transform: translateX(-5px);
+        }
+
+        .chat-item.active {
+            background: rgba(102, 126, 234, 0.2);
+            border-color: #667eea;
+        }
+
+        .chat-main {
+            background: rgba(20, 25, 45, 0.6);
+            border: 1px solid rgba(100, 150, 255, 0.2);
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .chat-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid rgba(100, 150, 255, 0.2);
+        }
+
+        .chat-messages {
+            flex: 1;
+            padding: 1.5rem;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .message {
+            max-width: 70%;
+            padding: 1rem;
+            border-radius: 8px;
+            word-wrap: break-word;
+        }
+
+        .message-sent {
+            align-self: flex-end;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #fff;
+        }
+
+        .message-received {
+            align-self: flex-start;
+            background: rgba(30, 35, 55, 0.8);
+            border: 1px solid rgba(100, 150, 255, 0.2);
+        }
+
+        .chat-input-container {
+            padding: 1.5rem;
+            border-top: 1px solid rgba(100, 150, 255, 0.2);
+            display: flex;
+            gap: 1rem;
+        }
+
+        .chat-input {
+            flex: 1;
+            padding: 0.75rem;
+            background: rgba(30, 35, 55, 0.8);
+            border: 1px solid rgba(100, 150, 255, 0.3);
+            border-radius: 6px;
+            color: #fff;
+            resize: none;
+        }
+
+        .send-button {
+            padding: 0.75rem 1.5rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            border-radius: 6px;
+            color: #fff;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .send-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+
+        /* File Upload */
+        .file-upload-area {
+            border: 2px dashed rgba(100, 150, 255, 0.3);
+            border-radius: 8px;
+            padding: 2rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin: 1rem 0;
+        }
+
+        .file-upload-area:hover {
+            border-color: #667eea;
+            background: rgba(102, 126, 234, 0.1);
+        }
+
+        .file-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .file-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem;
+            background: rgba(30, 35, 55, 0.6);
+            border-radius: 6px;
+            border: 1px solid rgba(100, 150, 255, 0.2);
+        }
+
+        .remove-btn {
+            background: rgba(255, 50, 50, 0.2);
+            border: 1px solid rgba(255, 50, 50, 0.3);
+            padding: 0.25rem 0.75rem;
+            border-radius: 4px;
+            color: #ff6b6b;
+            cursor: pointer;
+            font-size: 0.85rem;
+        }
+
+        .remove-btn:hover {
+            background: rgba(255, 50, 50, 0.3);
+        }
+
+        /* Groups */
+        .groups-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .group-card {
+            background: rgba(20, 25, 45, 0.6);
+            border: 1px solid rgba(100, 150, 255, 0.2);
+            border-radius: 12px;
+            padding: 1.5rem;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .group-card:hover {
+            border-color: #667eea;
+            transform: translateY(-5px);
+        }
+
+        .group-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 1rem;
+        }
+
+        .group-icon {
+            font-size: 2rem;
+        }
+
+        .group-members {
+            font-size: 0.85rem;
+            color: #888;
+        }
+
+        .invite-code {
+            background: rgba(102, 126, 234, 0.2);
+            border: 1px solid rgba(102, 126, 234, 0.3);
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            font-family: 'Courier New', monospace;
+            font-size: 1.1rem;
+            text-align: center;
+            margin: 1rem 0;
+            color: #667eea;
+        }
+
+        .btn-secondary {
+            width: 100%;
+            padding: 0.75rem;
+            background: rgba(30, 35, 55, 0.8);
+            border: 1px solid rgba(100, 150, 255, 0.3);
+            border-radius: 6px;
+            color: #fff;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 0.5rem;
+        }
+
+        .btn-secondary:hover {
+            border-color: #667eea;
+            background: rgba(102, 126, 234, 0.1);
+        }
+
+        @media (max-width: 768px) {
+            .chat-container {
+                grid-template-columns: 1fr;
+            }
+
+            .chat-sidebar {
+                display: none;
+            }
+        }
+
+        /* AcadFace Styles */
+        .acadface-container {
+            display: grid;
+            grid-template-columns: 250px 1fr 300px;
+            gap: 1.5rem;
+        }
+
+        .acadface-sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .acadface-main {
+            max-width: 700px;
+        }
+
+        .sidebar-section {
+            background: rgba(20, 25, 45, 0.6);
+            border: 1px solid rgba(100, 150, 255, 0.2);
+            border-radius: 12px;
+            padding: 1rem;
+        }
+
+        .sidebar-section h3 {
+            font-size: 1rem;
+            margin-bottom: 1rem;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .sidebar-item {
+            padding: 0.75rem;
+            background: rgba(30, 35, 55, 0.6);
+            border-radius: 6px;
+            margin-bottom: 0.5rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 1px solid transparent;
+        }
+
+        .sidebar-item:hover {
+            border-color: #667eea;
+            transform: translateX(-5px);
+        }
+
+        /* Post Creation */
+        .post-creator {
+            background: rgba(20, 25, 45, 0.6);
+            border: 1px solid rgba(100, 150, 255, 0.2);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .post-input {
+            width: 100%;
+            min-height: 100px;
+            padding: 1rem;
+            background: rgba(30, 35, 55, 0.8);
+            border: 1px solid rgba(100, 150, 255, 0.3);
+            border-radius: 8px;
+            color: #fff;
+            font-size: 1rem;
+            resize: vertical;
+            margin-bottom: 1rem;
+        }
+
+        .post-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .emoji-picker {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .emoji-btn {
+            background: rgba(102, 126, 234, 0.2);
+            border: 1px solid rgba(102, 126, 234, 0.3);
+            padding: 0.5rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: all 0.3s;
+        }
+
+        .emoji-btn:hover {
+            background: rgba(102, 126, 234, 0.3);
+            transform: scale(1.1);
+        }
+
+        /* Posts Feed */
+        .posts-feed {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .post-card {
+            background: rgba(20, 25, 45, 0.6);
+            border: 1px solid rgba(100, 150, 255, 0.2);
+            border-radius: 12px;
+            padding: 1.5rem;
+            transition: all 0.3s;
+        }
+
+        .post-card:hover {
+            border-color: #667eea;
+        }
+
+        .post-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .post-author {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .post-avatar {
+            width: 45px;
+            height: 45px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            color: #fff;
+        }
+
+        .post-author-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .post-author-name {
+            font-weight: 600;
+            color: #fff;
+            font-size: 0.95rem;
+        }
+
+        .post-time {
+            font-size: 0.8rem;
+            color: #888;
+        }
+
+        .post-content {
+            color: #e0e0e0;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+            white-space: pre-wrap;
+        }
+
+        .post-image {
+            width: 100%;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            max-height: 400px;
+            object-fit: cover;
+        }
+
+        .post-interactions {
+            display: flex;
+            justify-content: space-between;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(100, 150, 255, 0.2);
+        }
+
+        .interaction-btn {
+            flex: 1;
+            padding: 0.75rem;
+            background: transparent;
+            border: none;
+            color: #888;
+            cursor: pointer;
+            transition: all 0.3s;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .interaction-btn:hover {
+            background: rgba(102, 126, 234, 0.1);
+            color: #667eea;
+        }
+
+        .interaction-btn.active {
+            color: #667eea;
+        }
+
+        .interaction-count {
+            font-weight: 600;
+        }
+
+        /* Comments Section */
+        .comments-section {
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(100, 150, 255, 0.2);
+        }
+
+        .comment-item {
+            display: flex;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+            padding: 1rem;
+            background: rgba(30, 35, 55, 0.4);
+            border-radius: 8px;
+        }
+
+        .comment-avatar {
+            width: 35px;
+            height: 35px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+            flex-shrink: 0;
+        }
+
+        .comment-content {
+            flex: 1;
+        }
+
+        .comment-author {
+            font-weight: 600;
+            color: #fff;
+            font-size: 0.9rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .comment-text {
+            color: #aaa;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        .comment-input-container {
+            display: flex;
+            gap: 0.75rem;
+            margin-top: 1rem;
+        }
+
+        .comment-input {
+            flex: 1;
+            padding: 0.75rem;
+            background: rgba(30, 35, 55, 0.8);
+            border: 1px solid rgba(100, 150, 255, 0.3);
+            border-radius: 6px;
+            color: #fff;
+            font-size: 0.9rem;
+        }
+
+        /* Pages/Accounts List */
+        .pages-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .page-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem;
+            background: rgba(30, 35, 55, 0.6);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 1px solid transparent;
+        }
+
+        .page-item:hover {
+            border-color: #667eea;
+            transform: translateX(-5px);
+        }
+
+        .page-avatar {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            flex-shrink: 0;
+        }
+
+        .page-info {
+            flex: 1;
+        }
+
+        .page-name {
+            font-weight: 600;
+            color: #fff;
+            font-size: 0.9rem;
+        }
+
+        .page-followers {
+            font-size: 0.75rem;
+            color: #888;
+        }
+
+        /* Custom Emojis */
+        .custom-emoji {
+            display: inline-block;
+            font-size: 1.2rem;
+            margin: 0 0.1rem;
+        }
+
+        .acadface-widgets {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        @media (max-width: 1200px) {
+            .acadface-container {
+                grid-template-columns: 1fr;
+            }
+
+            .acadface-sidebar,
+            .acadface-widgets {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+
+        // LocalStorage Helper Functions
+        const saveToLocalStorage = (key, data) => {
+            try {
+                localStorage.setItem(key, JSON.stringify(data));
+            } catch (error) {
+                console.error('Error saving to localStorage:', error);
+            }
+        };
+
+        const loadFromLocalStorage = (key) => {
+            try {
+                const data = localStorage.getItem(key);
+                return data ? JSON.parse(data) : null;
+            } catch (error) {
+                console.error('Error loading from localStorage:', error);
+                return null;
+            }
+        };
+
+        const removeFromLocalStorage = (key) => {
+            try {
+                localStorage.removeItem(key);
+            } catch (error) {
+                console.error('Error removing from localStorage:', error);
+            }
+        };
+
+        // Create student data based on username and selected division
+        const createStudentData = (username, selectedDivision) => ({
+            id: `ETH-2024-${Math.floor(Math.random() * 9000) + 1000}`,
+            name: username,
+            division: selectedDivision,
+            department: getDepartmentName(selectedDivision),
+            enrollmentDate: new Date().toISOString().split('T')[0],
+            status: "نشط",
+            permissions: ["L1", "L2", "L3"],
+            avatar: username.charAt(0),
+            bio: "",
+            links: [],
+            files: [],
+            media: [],
+            groups: []
+        });
+
+        const getDepartmentName = (division) => {
+            const departments = {
+                "L1": "قسم العلوم الإنسانية والآداب",
+                "L2": "قسم العلوم التطبيقية",
+                "L3": "قسم العلوم الاجتماعية"
+            };
+            return departments[division] || "غير محدد";
+        };
+
+        // Divisions Data (L1, L2, L3 are parallel departments, not hierarchical)
+        const divisionsData = [
+            {
+                id: "L1",
+                title: "القسم الأول",
+                description: "قسم العلوم الإنسانية والآداب - يركز على الفلسفة، التاريخ، واللغات",
+                courses: 8,
+                students: 245,
+                status: "متاح",
+                locked: false,
+                lessons: [
+                    { id: 1, title: "مقدمة في الفلسفة", completed: true },
+                    { id: 2, title: "تاريخ الحضارات القديمة", completed: true },
+                    { id: 3, title: "اللغة والأدب", completed: false },
+                    { id: 4, title: "نظريات المعرفة", completed: false }
+                ],
+                challenges: [
+                    { id: 1, title: "تحليل نص فلسفي", difficulty: "متوسط", completed: false },
+                    { id: 2, title: "مقارنة الحضارات", difficulty: "صعب", completed: false }
+                ],
+                exams: [
+                    { id: 1, title: "اختبار منتصف الفصل", date: "2026-02-15", status: "قادم" }
+                ]
+            },
+            {
+                id: "L2",
+                title: "القسم الثاني",
+                description: "قسم العلوم التطبيقية - يشمل الرياضيات، الفيزياء، والتكنولوجيا",
+                courses: 10,
+                students: 198,
+                status: "متاح",
+                locked: false,
+                lessons: [
+                    { id: 1, title: "أساسيات الرياضيات", completed: true },
+                    { id: 2, title: "مبادئ الفيزياء", completed: true },
+                    { id: 3, title: "البرمجة التطبيقية", completed: false },
+                    { id: 4, title: "الذكاء الاصطناعي", completed: false }
+                ],
+                challenges: [
+                    { id: 1, title: "حل المعادلات المعقدة", difficulty: "متوسط", completed: true },
+                    { id: 2, title: "تصميم خوارزمية", difficulty: "صعب", completed: false },
+                    { id: 3, title: "مشروع الفيزياء النووية", difficulty: "متقدم", completed: false }
+                ],
+                exams: [
+                    { id: 1, title: "اختبار الرياضيات النهائي", date: "2026-02-20", status: "قادم" }
+                ]
+            },
+            {
+                id: "L3",
+                title: "القسم الثالث",
+                description: "قسم العلوم الاجتماعية - يغطي علم النفس، علم الاجتماع، والاقتصاد",
+                courses: 12,
+                students: 87,
+                status: "متاح",
+                locked: false,
+                lessons: [
+                    { id: 1, title: "مبادئ علم النفس", completed: true },
+                    { id: 2, title: "نظريات علم الاجتماع", completed: false },
+                    { id: 3, title: "الاقتصاد الجزئي", completed: false },
+                    { id: 4, title: "السلوك البشري", completed: false }
+                ],
+                challenges: [
+                    { id: 1, title: "دراسة حالة نفسية", difficulty: "متوسط", completed: false },
+                    { id: 2, title: "تحليل اقتصادي", difficulty: "صعب", completed: false }
+                ],
+                exams: [
+                    { id: 1, title: "اختبار علم النفس", date: "2026-02-18", status: "قادم" }
+                ]
+            },
+            {
+                id: "L4",
+                title: "القسم الرابع",
+                description: "ERROR: ACCESS_DENIED - الصلاحيات غير كافية للوصول",
+                courses: "???",
+                students: "???",
+                status: "محظور",
+                locked: true,
+                lessons: [],
+                challenges: [],
+                exams: []
+            }
+        ];
+
+        // Announcements Data
+        const announcementsData = [
+            {
+                id: 1,
+                title: "تحديث النظام الأكاديمي",
+                date: "2026-01-20",
+                body: "تم تحديث نظام Academy OS إلى الإصدار 3.2.1. يرجى الإبلاغ عن أي مشاكل تقنية فورًا.",
+                type: "normal"
+            },
+            {
+                id: 2,
+                title: "إجراءات أمنية جديدة",
+                date: "2026-01-18",
+                body: "تذكير: يمنع محاولة الوصول إلى الأقسام غير المصرح بها. سيتم تسجيل جميع المحاولات.",
+                type: "warning"
+            },
+            {
+                id: 3,
+                title: "صيانة دورية",
+                date: "2026-01-15",
+                body: "سيكون النظام تحت الصيانة يوم الجمعة من الساعة 2:00 صباحًا حتى 6:00 صباحًا.",
+                type: "normal"
+            },
+            {
+                id: 4,
+                title: "[SYSTEM ALERT]",
+                date: "2026-01-10",
+                body: "تم رصد محاولات وصول غير مصرح بها إلى القسم الرابع. تأكد من تسجيل الخروج بعد كل جلسة.",
+                type: "warning"
+            }
+        ];
+
+        // Main App Component
+        function AcademyOS() {
+            const [isLoggedIn, setIsLoggedIn] = useState(false);
+            const [currentPage, setCurrentPage] = useState('home');
+            const [username, setUsername] = useState('');
+            const [password, setPassword] = useState('');
+            const [selectedDivision, setSelectedDivision] = useState('');
+            const [loading, setLoading] = useState(false);
+            const [studentData, setStudentData] = useState(null);
+            const [isInitializing, setIsInitializing] = useState(true);
+
+            // Load session on component mount
+            useEffect(() => {
+                const savedSession = loadFromLocalStorage('academy_os_session');
+                if (savedSession && savedSession.isLoggedIn && savedSession.studentData) {
+                    setIsLoggedIn(true);
+                    setStudentData(savedSession.studentData);
+                    setCurrentPage(savedSession.currentPage || 'home');
+                }
+                setIsInitializing(false);
+            }, []);
+
+            // Save session whenever relevant state changes
+            useEffect(() => {
+                if (!isInitializing) {
+                    const sessionData = {
+                        isLoggedIn,
+                        studentData,
+                        currentPage
+                    };
+                    saveToLocalStorage('academy_os_session', sessionData);
+                }
+            }, [isLoggedIn, studentData, currentPage, isInitializing]);
+
+            const handleLogin = (e) => {
+                e.preventDefault();
+                if (!selectedDivision) {
+                    alert('⚠️ يرجى اختيار القسم الدراسي');
+                    return;
+                }
+                setLoading(true);
+                setTimeout(() => {
+                    if (username && password && selectedDivision) {
+                        const newStudentData = createStudentData(username, selectedDivision);
+                        setStudentData(newStudentData);
+                        setIsLoggedIn(true);
+                        setLoading(false);
+                    }
+                }, 1500);
+            };
+
+            const handleLogout = () => {
+                // Clear session
+                removeFromLocalStorage('academy_os_session');
+                setIsLoggedIn(false);
+                setCurrentPage('home');
+                setUsername('');
+                setPassword('');
+                setSelectedDivision('');
+                setStudentData(null);
+            };
+
+            const navigateTo = (page) => {
+                setCurrentPage(page);
+            };
+
+            const updateStudentData = (newData) => {
+                setStudentData(newData);
+            };
+
+            // Show loading while initializing
+            if (isInitializing) {
+                return (
+                    <div className="app-container">
+                        <div className="loading">
+                            <div className="loading-spinner"></div>
+                        </div>
+                    </div>
+                );
+            }
+
+            if (!isLoggedIn) {
+                return <LoginScreen 
+                    username={username}
+                    password={password}
+                    selectedDivision={selectedDivision}
+                    setUsername={setUsername}
+                    setPassword={setPassword}
+                    setSelectedDivision={setSelectedDivision}
+                    handleLogin={handleLogin}
+                    loading={loading}
+                />;
+            }
+
+            return (
+                <div className="app-container">
+                    <Header 
+                        student={studentData}
+                        onLogout={handleLogout}
+                    />
+                    <main className="main-content">
+                        {currentPage === 'home' && <HomePage navigateTo={navigateTo} student={studentData} />}
+                        {currentPage === 'divisions' && <DivisionsPage navigateTo={navigateTo} student={studentData} />}
+                        {currentPage === 'announcements' && <AnnouncementsPage navigateTo={navigateTo} />}
+                        {currentPage === 'profile' && <ProfilePage navigateTo={navigateTo} student={studentData} updateStudentData={updateStudentData} />}
+                        {currentPage === 'chat' && <ChatPage navigateTo={navigateTo} student={studentData} />}
+                        {currentPage === 'groups' && <GroupsPage navigateTo={navigateTo} student={studentData} updateStudentData={updateStudentData} />}
+                        {currentPage === 'acadface' && <AcadFacePage navigateTo={navigateTo} student={studentData} />}
+                    </main>
+                </div>
+            );
+        }
+
+        // Login Screen Component
+        function LoginScreen({ username, password, selectedDivision, setUsername, setPassword, setSelectedDivision, handleLogin, loading }) {
+            return (
+                <div className="login-container">
+                    <div className="login-box">
+                        <div className="login-header">
+                            <div className="logo-icon">AOS</div>
+                            <h2>Academy OS</h2>
+                            <p>أكاديمية إيثيريا - نظام الإدارة الأكاديمية</p>
+                        </div>
+                        <form onSubmit={handleLogin}>
+                            <div className="form-group">
+                                <label>اسم المستخدم</label>
+                                <input 
+                                    type="text" 
+                                    value={username}
+                                    onChange={(e) => setUsername(e.target.value)}
+                                    placeholder="أدخل اسم المستخدم"
+                                    required
+                                />
+                            </div>
+                            <div className="form-group">
+                                <label>كلمة المرور</label>
+                                <input 
+                                    type="password"
+                                    value={password}
+                                    onChange={(e) => setPassword(e.target.value)}
+                                    placeholder="أدخل كلمة المرور"
+                                    required
+                                />
+                            </div>
+                            <div className="form-group">
+                                <label>اختر قسمك الدراسي</label>
+                                <select 
+                                    value={selectedDivision}
+                                    onChange={(e) => setSelectedDivision(e.target.value)}
+                                    style={{
+                                        width: '100%',
+                                        padding: '0.75rem',
+                                        background: 'rgba(30, 35, 55, 0.8)',
+                                        border: '1px solid rgba(100, 150, 255, 0.3)',
+                                        borderRadius: '6px',
+                                        color: '#fff',
+                                        fontSize: '1rem'
+                                    }}
+                                    required
+                                >
+                                    <option value="">-- اختر القسم --</option>
+                                    <option value="L1">L1 - العلوم الإنسانية والآداب</option>
+                                    <option value="L2">L2 - العلوم التطبيقية</option>
+                                    <option value="L3">L3 - العلوم الاجتماعية</option>
+                                </select>
+                            </div>
+                            <button type="submit" className="btn" disabled={loading}>
+                                {loading ? 'جاري تسجيل الدخول...' : 'تسجيل الدخول'}
+                            </button>
+                        </form>
+                        <div style={{ marginTop: '1rem', textAlign: 'center', fontSize: '0.8rem', color: '#666' }}>
+                            <p>النظام محمي - جميع المحاولات مسجلة</p>
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+
+        // Header Component
+        function Header({ student, onLogout }) {
+            return (
+                <header className="header">
+                    <div className="logo">
+                        <div className="logo-icon">AOS</div>
+                        <div className="logo-text">
+                            <h1>Academy OS</h1>
+                            <p>أكاديمية إيثيريا</p>
+                        </div>
+                    </div>
+                    <div className="user-info">
+                        <div>
+                            <div style={{ textAlign: 'left', fontSize: '0.9rem' }}>{student.name}</div>
+                            <div style={{ textAlign: 'left', fontSize: '0.75rem', color: '#888' }}>{student.division}</div>
+                        </div>
+                        <div className="user-avatar">{student.name.charAt(0)}</div>
+                        <button 
+                            onClick={onLogout}
+                            style={{
+                                marginRight: '1rem',
+                                padding: '0.5rem 1rem',
+                                background: 'rgba(255, 50, 50, 0.2)',
+                                border: '1px solid rgba(255, 50, 50, 0.3)',
+                                borderRadius: '6px',
+                                color: '#ff6b6b',
+                                cursor: 'pointer',
+                                fontSize: '0.85rem',
+                                transition: 'all 0.3s'
+                            }}
+                            onMouseOver={(e) => {
+                                e.target.style.background = 'rgba(255, 50, 50, 0.3)';
+                                e.target.style.borderColor = '#ff6b6b';
+                            }}
+                            onMouseOut={(e) => {
+                                e.target.style.background = 'rgba(255, 50, 50, 0.2)';
+                                e.target.style.borderColor = 'rgba(255, 50, 50, 0.3)';
+                            }}
+                        >
+                            🚪 تسجيل الخروج
+                        </button>
+                    </div>
+                </header>
+            );
+        }
+
+        // Home Page Component
+        function HomePage({ navigateTo, student }) {
+            const handleLockedClick = () => {
+                alert('⚠️ ACCESS DENIED\n\nالصلاحيات غير كافية\nERROR CODE: 403_FORBIDDEN');
+            };
+
+            return (
+                <div>
+                    <div className="welcome-section">
+                        <h2>مرحبًا، {student.name}</h2>
+                        <p>قسمك الحالي: {student.division} | الحالة: {student.status}</p>
+                    </div>
+
+                    <div className="nav-grid">
+                        <div className="nav-card" onClick={() => navigateTo('divisions')}>
+                            <div className="nav-card-icon">📚</div>
+                            <h3>الأقسام التعليمية</h3>
+                            <p>الوصول إلى جميع الأقسام والمقررات</p>
+                        </div>
+
+                        <div className="nav-card" onClick={() => navigateTo('acadface')}>
+                            <div className="nav-card-icon">🎭</div>
+                            <h3>AcadFace</h3>
+                            <p>شبكة التواصل الاجتماعي الأكاديمية</p>
+                        </div>
+
+                        <div className="nav-card" onClick={() => navigateTo('announcements')}>
+                            <div className="nav-card-icon">📢</div>
+                            <h3>الإعلانات</h3>
+                            <p>آخر التحديثات والقرارات الإدارية</p>
+                        </div>
+
+                        <div className="nav-card" onClick={() => navigateTo('profile')}>
+                            <div className="nav-card-icon">👤</div>
+                            <h3>الملف الشخصي</h3>
+                            <p>معلوماتك الأكاديمية والشخصية</p>
+                        </div>
+
+                        <div className="nav-card" onClick={() => navigateTo('chat')}>
+                            <div className="nav-card-icon">💬</div>
+                            <h3>المحادثات</h3>
+                            <p>تواصل مع الطلاب والمعلمين</p>
+                        </div>
+
+                        <div className="nav-card" onClick={() => navigateTo('groups')}>
+                            <div className="nav-card-icon">👥</div>
+                            <h3>المجموعات</h3>
+                            <p>انضم إلى المجموعات الدراسية</p>
+                        </div>
+
+                        <div className="nav-card locked" onClick={handleLockedClick}>
+                            <span className="lock-badge">🔒 محظور</span>
+                            <div className="nav-card-icon">⚙️</div>
+                            <h3 className="glitch">إعدادات النظام</h3>
+                            <p>ERROR: ACCESS_DENIED</p>
+                        </div>
+
+                        <div className="nav-card locked" onClick={handleLockedClick}>
+                            <span className="lock-badge">🔒 محظور</span>
+                            <div className="nav-card-icon">📊</div>
+                            <h3>التقارير المتقدمة</h3>
+                            <p>غير متاح لمستواك الحالي</p>
+                        </div>
+
+                        <div className="nav-card locked" onClick={handleLockedClick}>
+                            <span className="lock-badge">🔒 محظور</span>
+                            <div className="nav-card-icon glitch">🗃️</div>
+                            <h3>الأرشيف</h3>
+                            <p>صلاحيات إدارية مطلوبة</p>
+                        </div>
+                    </div>
+
+                    <div className="error-message">
+                        <div>SYSTEM_WARNING: Unauthorized access attempts detected</div>
+                        <div style={{ marginTop: '0.5rem', fontSize: '0.8rem', opacity: 0.7 }}>
+                            Last attempt: [REDACTED] | Status: BLOCKED
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+
+        // Divisions Page Component
+        function DivisionsPage({ navigateTo, student }) {
+            const [selectedDivision, setSelectedDivision] = useState(null);
+
+            const handleDivisionClick = (division) => {
+                if (division.locked) {
+                    alert('⚠️ ACCESS DENIED\n\n' + division.description + '\n\nERROR CODE: L4_RESTRICTED');
+                } else {
+                    setSelectedDivision(division);
+                }
+            };
+
+            const handleBackToDivisions = () => {
+                setSelectedDivision(null);
+            };
+
+            if (selectedDivision) {
+                return <DivisionDetailPage 
+                    division={selectedDivision} 
+                    onBack={handleBackToDivisions}
+                    student={student}
+                />;
+            }
+
+            return (
+                <div>
+                    <button className="back-button" onClick={() => navigateTo('home')}>
+                        ← العودة للرئيسية
+                    </button>
+
+                    <div className="welcome-section">
+                        <h2>الأقسام التعليمية</h2>
+                        <p>جميع الأقسام المتاحة في الأكاديمية - كل الأقسام بنفس المستوى</p>
+                    </div>
+
+                    <div className="levels-container">
+                        {divisionsData.map(division => (
+                            <div 
+                                key={division.id}
+                                className={`level-card ${division.locked ? 'locked' : ''}`}
+                                onClick={() => handleDivisionClick(division)}
+                                style={{ cursor: 'pointer' }}
+                            >
+                                <div className="level-header">
+                                    <div className="level-title">{division.title}</div>
+                                    <span className={`level-status ${division.locked ? 'status-locked' : 'status-available'}`}>
+                                        {division.status}
+                                    </span>
+                                </div>
+                                <div className="level-description">{division.description}</div>
+                                <div className="level-stats">
+                                    <div className="stat-item">
+                                        <div className="stat-label">عدد المقررات</div>
+                                        <div className="stat-value">{division.courses}</div>
+                                    </div>
+                                    <div className="stat-item">
+                                        <div className="stat-label">عدد الطلاب</div>
+                                        <div className="stat-value">{division.students}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+
+                    {divisionsData.some(d => d.locked) && (
+                        <div className="error-message" style={{ marginTop: '2rem' }}>
+                            <div>⚠️ SYSTEM NOTICE</div>
+                            <div style={{ marginTop: '0.5rem' }}>
+                                بعض الأقسام محظورة بناءً على صلاحيات حسابك الحالية.
+                                <br />
+                                للحصول على صلاحيات إضافية، يرجى التواصل مع الإدارة.
+                            </div>
+                        </div>
+                    )}
+                </div>
+            );
+        }
+
+        // Division Detail Page Component
+        function DivisionDetailPage({ division, onBack, student }) {
+            const [activeTab, setActiveTab] = useState('lessons');
+
+            const getDifficultyClass = (difficulty) => {
+                switch(difficulty) {
+                    case 'سهل': return 'difficulty-easy';
+                    case 'متوسط': return 'difficulty-medium';
+                    case 'صعب': return 'difficulty-hard';
+                    case 'متقدم': return 'difficulty-advanced';
+                    default: return 'difficulty-medium';
+                }
+            };
+
+            const handleLessonClick = (lesson) => {
+                if (lesson.completed) {
+                    alert(`✓ ${lesson.title}\n\nهذا الدرس مكتمل بالفعل.\nيمكنك مراجعته مرة أخرى.`);
+                } else {
+                    alert(`📖 ${lesson.title}\n\nسيتم فتح محتوى الدرس قريبًا...`);
+                }
+            };
+
+            const handleChallengeClick = (challenge) => {
+                if (challenge.completed) {
+                    alert(`✓ ${challenge.title}\n\nتم إكمال هذا التحدي بنجاح!`);
+                } else {
+                    alert(`🎯 ${challenge.title}\n\nالصعوبة: ${challenge.difficulty}\n\nسيتم فتح التحدي قريبًا...`);
+                }
+            };
+
+            const handleExamClick = (exam) => {
+                alert(`📝 ${exam.title}\n\nالتاريخ: ${exam.date}\nالحالة: ${exam.status}\n\nسيتم فتح الاختبار في الموعد المحدد.`);
+            };
+
+            return (
+                <div>
+                    <button className="back-button" onClick={onBack}>
+                        ← العودة للأقسام
+                    </button>
+
+                    <div className="detail-header">
+                        <div className="detail-title">{division.title}</div>
+                        <div className="detail-description">{division.description}</div>
+                        <div style={{ display: 'flex', gap: '1rem', marginTop: '1rem' }}>
+                            <div className="stat-item">
+                                <div className="stat-label">المقررات</div>
+                                <div className="stat-value">{division.courses}</div>
+                            </div>
+                            <div className="stat-item">
+                                <div className="stat-label">الطلاب</div>
+                                <div className="stat-value">{division.students}</div>
+                            </div>
+                            <div className="stat-item">
+                                <div className="stat-label">الدروس المكتملة</div>
+                                <div className="stat-value">
+                                    {division.lessons.filter(l => l.completed).length}/{division.lessons.length}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="tabs-container">
+                        <button 
+                            className={`tab ${activeTab === 'lessons' ? 'active' : ''}`}
+                            onClick={() => setActiveTab('lessons')}
+                        >
+                            📚 الدروس ({division.lessons.length})
+                        </button>
+                        <button 
+                            className={`tab ${activeTab === 'challenges' ? 'active' : ''}`}
+                            onClick={() => setActiveTab('challenges')}
+                        >
+                            🎯 التحديات ({division.challenges.length})
+                        </button>
+                        <button 
+                            className={`tab ${activeTab === 'exams' ? 'active' : ''}`}
+                            onClick={() => setActiveTab('exams')}
+                        >
+                            📝 الاختبارات ({division.exams.length})
+                        </button>
+                    </div>
+
+                    {activeTab === 'lessons' && (
+                        <div className="content-list">
+                            {division.lessons.length > 0 ? (
+                                division.lessons.map(lesson => (
+                                    <div 
+                                        key={lesson.id}
+                                        className={`lesson-item ${lesson.completed ? 'completed' : ''}`}
+                                        onClick={() => handleLessonClick(lesson)}
+                                    >
+                                        <div className="item-content">
+                                            <div className="item-title">{lesson.title}</div>
+                                            <div className="item-meta">
+                                                <span>الدرس رقم {lesson.id}</span>
+                                            </div>
+                                        </div>
+                                        {lesson.completed && (
+                                            <span className="status-badge status-completed">✓ مكتمل</span>
+                                        )}
+                                    </div>
+                                ))
+                            ) : (
+                                <div className="empty-state">
+                                    <div className="empty-state-icon">📚</div>
+                                    <div>لا توجد دروس متاحة حاليًا</div>
+                                </div>
+                            )}
+                        </div>
+                    )}
+
+                    {activeTab === 'challenges' && (
+                        <div className="content-list">
+                            {division.challenges.length > 0 ? (
+                                division.challenges.map(challenge => (
+                                    <div 
+                                        key={challenge.id}
+                                        className={`challenge-item ${challenge.completed ? 'completed' : ''}`}
+                                        onClick={() => handleChallengeClick(challenge)}
+                                    >
+                                        <div className="item-content">
+                                            <div className="item-title">{challenge.title}</div>
+                                            <div className="item-meta">
+                                                <span className={`difficulty-badge ${getDifficultyClass(challenge.difficulty)}`}>
+                                                    {challenge.difficulty}
+                                                </span>
+                                            </div>
+                                        </div>
+                                        {challenge.completed && (
+                                            <span className="status-badge status-completed">✓ مكتمل</span>
+                                        )}
+                                    </div>
+                                ))
+                            ) : (
+                                <div className="empty-state">
+                                    <div className="empty-state-icon">🎯</div>
+                                    <div>لا توجد تحديات متاحة حاليًا</div>
+                                </div>
+                            )}
+                        </div>
+                    )}
+
+                    {activeTab === 'exams' && (
+                        <div className="content-list">
+                            {division.exams.length > 0 ? (
+                                division.exams.map(exam => (
+                                    <div 
+                                        key={exam.id}
+                                        className="exam-item"
+                                        onClick={() => handleExamClick(exam)}
+                                    >
+                                        <div className="item-content">
+                                            <div className="item-title">{exam.title}</div>
+                                            <div className="item-meta">
+                                                <span>📅 {exam.date}</span>
+                                            </div>
+                                        </div>
+                                        <span className="status-badge status-upcoming">{exam.status}</span>
+                                    </div>
+                                ))
+                            ) : (
+                                <div className="empty-state">
+                                    <div className="empty-state-icon">📝</div>
+                                    <div>لا توجد اختبارات مجدولة حاليًا</div>
+                                </div>
+                            )}
+                        </div>
+                    )}
+                </div>
+            );
+        }
+
+        // Announcements Page Component
+        function AnnouncementsPage({ navigateTo }) {
+            return (
+                <div>
+                    <button className="back-button" onClick={() => navigateTo('home')}>
+                        ← العودة للرئيسية
+                    </button>
+
+                    <div className="welcome-section">
+                        <h2>الإعلانات والتحديثات</h2>
+                        <p>آخر الأخبار والقرارات من إدارة الأكاديمية</p>
+                    </div>
+
+                    <div className="announcement-list">
+                        {announcementsData.map(announcement => (
+                            <div 
+                                key={announcement.id}
+                                className={`announcement-item ${announcement.type === 'warning' ? 'warning' : ''}`}
+                            >
+                                <div className="announcement-header">
+                                    <div className="announcement-title">{announcement.title}</div>
+                                    <div className="announcement-date">{announcement.date}</div>
+                                </div>
+                                <div className="announcement-body">{announcement.body}</div>
+                            </div>
+                        ))}
+                    </div>
+
+                    <div className="error-message" style={{ marginTop: '2rem' }}>
+                        <div className="glitch">⚠️ SYSTEM LOG</div>
+                        <div style={{ marginTop: '0.5rem', fontSize: '0.85rem', fontFamily: 'monospace' }}>
+                            [2026-01-21 03:47:22] Anomaly detected in L4 access logs
+                            <br />
+                            [2026-01-21 03:47:23] Investigation initiated
+                            <br />
+                            [2026-01-21 03:47:24] [DATA CORRUPTED]
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+
+        // Profile Page Component
+        function ProfilePage({ navigateTo, student, updateStudentData }) {
+            const [isEditing, setIsEditing] = useState(false);
+            const [editedBio, setEditedBio] = useState(student.bio);
+            const [showAddLink, setShowAddLink] = useState(false);
+            const [showAddFile, setShowAddFile] = useState(false);
+            const [newLinkTitle, setNewLinkTitle] = useState('');
+            const [newLinkUrl, setNewLinkUrl] = useState('');
+            const [newFileName, setNewFileName] = useState('');
+            const [activeTab, setActiveTab] = useState('info');
+
+            const handleSaveProfile = () => {
+                const updatedStudent = { ...student, bio: editedBio };
+                updateStudentData(updatedStudent);
+                setIsEditing(false);
+                alert('✓ تم حفظ التغييرات بنجاح!');
+            };
+
+            const handleAddLink = () => {
+                if (newLinkTitle && newLinkUrl) {
+                    const updatedLinks = [...student.links, { id: Date.now(), title: newLinkTitle, url: newLinkUrl }];
+                    updateStudentData({ ...student, links: updatedLinks });
+                    setNewLinkTitle('');
+                    setNewLinkUrl('');
+                    setShowAddLink(false);
+                }
+            };
+
+            const handleRemoveLink = (linkId) => {
+                const updatedLinks = student.links.filter(l => l.id !== linkId);
+                updateStudentData({ ...student, links: updatedLinks });
+            };
+
+            const handleAddFile = () => {
+                if (newFileName) {
+                    const updatedFiles = [...student.files, { 
+                        id: Date.now(), 
+                        name: newFileName, 
+                        uploadDate: new Date().toISOString().split('T')[0],
+                        size: `${Math.floor(Math.random() * 500) + 100} KB`
+                    }];
+                    updateStudentData({ ...student, files: updatedFiles });
+                    setNewFileName('');
+                    setShowAddFile(false);
+                }
+            };
+
+            const handleRemoveFile = (fileId) => {
+                const updatedFiles = student.files.filter(f => f.id !== fileId);
+                updateStudentData({ ...student, files: updatedFiles });
+            };
+
+            return (
+                <div className="profile-container">
+                    <button className="back-button" onClick={() => navigateTo('home')}>
+                        ← العودة للرئيسية
+                    </button>
+
+                    <div className="profile-header">
+                        <div className="profile-avatar">{student.avatar}</div>
+                        <div className="profile-info">
+                            <h2>{student.name}</h2>
+                            <p>الرقم الأكاديمي: {student.id}</p>
+                            <p>القسم: {student.division}</p>
+                            <p>الحالة: {student.status}</p>
+                        </div>
+                    </div>
+
+                    <div className="tabs-container">
+                        <button 
+                            className={`tab ${activeTab === 'info' ? 'active' : ''}`}
+                            onClick={() => setActiveTab('info')}
+                        >
+                            ℹ️ المعلومات
+                        </button>
+                        <button 
+                            className={`tab ${activeTab === 'bio' ? 'active' : ''}`}
+                            onClick={() => setActiveTab('bio')}
+                        >
+                            📝 السيرة الذاتية
+                        </button>
+                        <button 
+                            className={`tab ${activeTab === 'links' ? 'active' : ''}`}
+                            onClick={() => setActiveTab('links')}
+                        >
+                            🔗 الروابط ({student.links.length})
+                        </button>
+                        <button 
+                            className={`tab ${activeTab === 'files' ? 'active' : ''}`}
+                            onClick={() => setActiveTab('files')}
+                        >
+                            📎 الملفات ({student.files.length})
+                        </button>
+                    </div>
+
+                    {activeTab === 'info' && (
+                        <div className="info-grid">
+                            <div className="info-card">
+                                <h3>المعلومات الأكاديمية</h3>
+                                <div className="info-row">
+                                    <span className="info-label">التخصص</span>
+                                    <span className="info-value">{student.department}</span>
+                                </div>
+                                <div className="info-row">
+                                    <span className="info-label">تاريخ التسجيل</span>
+                                    <span className="info-value">{student.enrollmentDate}</span>
+                                </div>
+                                <div className="info-row">
+                                    <span className="info-label">القسم الحالي</span>
+                                    <span className="info-value">{student.division}</span>
+                                </div>
+                            </div>
+
+                            <div className="info-card">
+                                <h3>الصلاحيات</h3>
+                                {student.permissions.map(perm => (
+                                    <div key={perm} className="info-row">
+                                        <span className="info-label">{perm}</span>
+                                        <span className="info-value" style={{ color: '#50ffa0' }}>✓ مفعّل</span>
+                                    </div>
+                                ))}
+                                <div className="info-row">
+                                    <span className="info-label">L4</span>
+                                    <span className="info-value" style={{ color: '#ff6b6b' }}>✗ محظور</span>
+                                </div>
+                            </div>
+                        </div>
+                    )}
+
+                    {activeTab === 'bio' && (
+                        <div className="info-card">
+                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
+                                <h3>السيرة الذاتية</h3>
+                                {!isEditing && (
+                                    <button className="btn-secondary" onClick={() => setIsEditing(true)} style={{ width: 'auto', padding: '0.5rem 1rem' }}>
+                                        ✏️ تعديل
+                                    </button>
+                                )}
+                            </div>
+                            {isEditing ? (
+                                <div>
+                                    <textarea
+                                        value={editedBio}
+                                        onChange={(e) => setEditedBio(e.target.value)}
+                                        placeholder="اكتب نبذة عنك..."
+                                        style={{
+                                            width: '100%',
+                                            minHeight: '150px',
+                                            padding: '1rem',
+                                            background: 'rgba(30, 35, 55, 0.8)',
+                                            border: '1px solid rgba(100, 150, 255, 0.3)',
+                                            borderRadius: '6px',
+                                            color: '#fff',
+                                            fontSize: '1rem',
+                                            resize: 'vertical'
+                                        }}
+                                    />
+                                    <div style={{ display: 'flex', gap: '1rem', marginTop: '1rem' }}>
+                                        <button className="btn" onClick={handleSaveProfile} style={{ flex: 1 }}>
+                                            💾 حفظ
+                                        </button>
+                                        <button className="btn-secondary" onClick={() => setIsEditing(false)} style={{ flex: 1 }}>
+                                            ✕ إلغاء
+                                        </button>
+                                    </div>
+                                </div>
+                            ) : (
+                                <div style={{ color: '#aaa', lineHeight: 1.6 }}>
+                                    {student.bio || 'لم يتم إضافة سيرة ذاتية بعد...'}
+                                </div>
+                            )}
+                        </div>
+                    )}
+
+                    {activeTab === 'links' && (
+                        <div className="info-card">
+                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
+                                <h3>الروابط المحفوظة</h3>
+                                <button className="btn-secondary" onClick={() => setShowAddLink(!showAddLink)} style={{ width: 'auto', padding: '0.5rem 1rem' }}>
+                                    ➕ إضافة رابط
+                                </button>
+                            </div>
+
+                            {showAddLink && (
+                                <div style={{ marginBottom: '1rem', padding: '1rem', background: 'rgba(30, 35, 55, 0.6)', borderRadius: '8px' }}>
+                                    <div className="form-group">
+                                        <label>عنوان الرابط</label>
+                                        <input 
+                                            type="text"
+                                            value={newLinkTitle}
+                                            onChange={(e) => setNewLinkTitle(e.target.value)}
+                                            placeholder="مثال: موقعي الشخصي"
+                                            style={{
+                                                width: '100%',
+                                                padding: '0.75rem',
+                                                background: 'rgba(30, 35, 55, 0.8)',
+                                                border: '1px solid rgba(100, 150, 255, 0.3)',
+                                                borderRadius: '6px',
+                                                color: '#fff'
+                                            }}
+                                        />
+                                    </div>
+                                    <div className="form-group">
+                                        <label>URL</label>
+                                        <input 
+                                            type="url"
+                                            value={newLinkUrl}
+                                            onChange={(e) => setNewLinkUrl(e.target.value)}
+                                            placeholder="https://example.com"
+                                            style={{
+                                                width: '100%',
+                                                padding: '0.75rem',
+                                                background: 'rgba(30, 35, 55, 0.8)',
+                                                border: '1px solid rgba(100, 150, 255, 0.3)',
+                                                borderRadius: '6px',
+                                                color: '#fff'
+                                            }}
+                                        />
+                                    </div>
+                                    <button className="btn" onClick={handleAddLink}>
+                                        ✓ حفظ الرابط
+                                    </button>
+                                </div>
+                            )}
+
+                            <div className="file-list">
+                                {student.links.length > 0 ? (
+                                    student.links.map(link => (
+                                        <div key={link.id} className="file-item">
+                                            <div>
+                                                <div style={{ fontWeight: 600, color: '#fff' }}>{link.title}</div>
+                                                <div style={{ fontSize: '0.85rem', color: '#667eea', marginTop: '0.25rem' }}>{link.url}</div>
+                                            </div>
+                                            <button className="remove-btn" onClick={() => handleRemoveLink(link.id)}>
+                                                حذف
+                                            </button>
+                                        </div>
+                                    ))
+                                ) : (
+                                    <div style={{ textAlign: 'center', padding: '2rem', color: '#888' }}>
+                                        لا توجد روابط محفوظة
+                                    </div>
+                                )}
+                            </div>
+                        </div>
+                    )}
+
+                    {activeTab === 'files' && (
+                        <div className="info-card">
+                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
+                                <h3>الملفات المرفوعة</h3>
+                                <button className="btn-secondary" onClick={() => setShowAddFile(!showAddFile)} style={{ width: 'auto', padding: '0.5rem 1rem' }}>
+                                    ➕ رفع ملف
+                                </button>
+                            </div>
+
+                            {showAddFile && (
+                                <div style={{ marginBottom: '1rem', padding: '1rem', background: 'rgba(30, 35, 55, 0.6)', borderRadius: '8px' }}>
+                                    <div className="form-group">
+                                        <label>اسم الملف</label>
+                                        <input 
+                                            type="text"
+                                            value={newFileName}
+                                            onChange={(e) => setNewFileName(e.target.value)}
+                                            placeholder="مثال: تقرير_المشروع.pdf"
+                                            style={{
+                                                width: '100%',
+                                                padding: '0.75rem',
+                                                background: 'rgba(30, 35, 55, 0.8)',
+                                                border: '1px solid rgba(100, 150, 255, 0.3)',
+                                                borderRadius: '6px',
+                                                color: '#fff'
+                                            }}
+                                        />
+                                    </div>
+                                    <button className="btn" onClick={handleAddFile}>
+                                        ✓ رفع الملف
+                                    </button>
+                                </div>
+                            )}
+
+                            <div className="file-list">
+                                {student.files.length > 0 ? (
+                                    student.files.map(file => (
+                                        <div key={file.id} className="file-item">
+                                            <div>
+                                                <div style={{ fontWeight: 600, color: '#fff' }}>📄 {file.name}</div>
+                                                <div style={{ fontSize: '0.85rem', color: '#888', marginTop: '0.25rem' }}>
+                                                    {file.size} • {file.uploadDate}
+                                                </div>
+                                            </div>
+                                            <button className="remove-btn" onClick={() => handleRemoveFile(file.id)}>
+                                                حذف
+                                            </button>
+                                        </div>
+                                    ))
+                                ) : (
+                                    <div style={{ textAlign: 'center', padding: '2rem', color: '#888' }}>
+                                        لا توجد ملفات مرفوعة
+                                    </div>
+                                )}
+                            </div>
+                        </div>
+                    )}
+
+                    <div className="error-message" style={{ marginTop: '1.5rem' }}>
+                        <div>⚠️ تنبيه أمني</div>
+                        <div style={{ marginTop: '0.5rem', fontSize: '0.85rem' }}>
+                            جميع التعديلات والملفات المرفوعة يتم تسجيلها في النظام.
+                            <br />
+                            يرجى التأكد من عدم رفع محتوى محظور أو غير مناسب.
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+
+        // Chat Page Component
+        function ChatPage({ navigateTo, student }) {
+            const [activeChat, setActiveChat] = useState(null);
+            const [message, setMessage] = useState('');
+            const [chats] = useState([
+                { id: 1, name: 'مجموعة L2 - الرياضيات', lastMessage: 'هل أحد فهم التمرين الأخير؟', unread: 3 },
+                { id: 2, name: 'أحمد الشمري', lastMessage: 'شكرًا على المساعدة!', unread: 0 },
+                { id: 3, name: 'مجموعة المشروع النهائي', lastMessage: 'اجتماع غدًا الساعة 3', unread: 1 },
+                { id: 4, name: 'د. محمد العتيبي', lastMessage: 'تم رفع المحاضرة', unread: 0 }
+            ]);
+
+            const [messages] = useState({
+                1: [
+                    { id: 1, sender: 'سارة', text: 'هل أحد فهم التمرين الأخير؟', sent: false },
+                    { id: 2, sender: 'أنت', text: 'نعم، يمكنني مساعدتك', sent: true },
+                    { id: 3, sender: 'سارة', text: 'رائع! ممكن تشرح الخطوة الثالثة؟', sent: false }
+                ],
+                2: [
+                    { id: 1, sender: 'أحمد الشمري', text: 'شكرًا على المساعدة!', sent: false },
+                    { id: 2, sender: 'أنت', text: 'العفو، دائمًا في الخدمة', sent: true }
+                ]
+            });
+
+            const handleSendMessage = () => {
+                if (message.trim()) {
+                    alert(`✓ تم إرسال: ${message}`);
+                    setMessage('');
+                }
+            };
+
+            return (
+                <div>
+                    <button className="back-button" onClick={() => navigateTo('home')}>
+                        ← العودة للرئيسية
+                    </button>
+
+                    <div className="chat-container">
+                        <div className="chat-sidebar">
+                            <h3 style={{ marginBottom: '1rem', color: '#fff' }}>💬 المحادثات</h3>
+                            <div className="chat-list">
+                                {chats.map(chat => (
+                                    <div 
+                                        key={chat.id}
+                                        className={`chat-item ${activeChat === chat.id ? 'active' : ''}`}
+                                        onClick={() => setActiveChat(chat.id)}
+                                    >
+                                        <div style={{ fontWeight: 600, color: '#fff', marginBottom: '0.25rem' }}>
+                                            {chat.name}
+                                        </div>
+                                        <div style={{ fontSize: '0.85rem', color: '#888' }}>
+                                            {chat.lastMessage}
+                                        </div>
+                                        {chat.unread > 0 && (
+                                            <div style={{
+                                                position: 'absolute',
+                                                top: '0.5rem',
+                                                left: '0.5rem',
+                                                background: '#667eea',
+                                                color: '#fff',
+                                                borderRadius: '50%',
+                                                width: '20px',
+                                                height: '20px',
+                                                display: 'flex',
+                                                alignItems: 'center',
+                                                justifyContent: 'center',
+                                                fontSize: '0.75rem'
+                                            }}>
+                                                {chat.unread}
+                                            </div>
+                                        )}
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+
+                        <div className="chat-main">
+                            {activeChat ? (
+                                <>
+                                    <div className="chat-header">
+                                        <h3 style={{ color: '#fff' }}>
+                                            {chats.find(c => c.id === activeChat)?.name}
+                                        </h3>
+                                    </div>
+                                    <div className="chat-messages">
+                                        {(messages[activeChat] || []).map(msg => (
+                                            <div key={msg.id} className={`message ${msg.sent ? 'message-sent' : 'message-received'}`}>
+                                                {!msg.sent && (
+                                                    <div style={{ fontSize: '0.85rem', marginBottom: '0.25rem', opacity: 0.7 }}>
+                                                        {msg.sender}
+                                                    </div>
+                                                )}
+                                                <div>{msg.text}</div>
+                                            </div>
+                                        ))}
+                                    </div>
+                                    <div className="chat-input-container">
+                                        <textarea
+                                            className="chat-input"
+                                            value={message}
+                                            onChange={(e) => setMessage(e.target.value)}
+                                            placeholder="اكتب رسالتك..."
+                                            rows="2"
+                                            onKeyPress={(e) => {
+                                                if (e.key === 'Enter' && !e.shiftKey) {
+                                                    e.preventDefault();
+                                                    handleSendMessage();
+                                                }
+                                            }}
+                                        />
+                                        <button className="send-button" onClick={handleSendMessage}>
+                                            إرسال
+                                        </button>
+                                    </div>
+                                </>
+                            ) : (
+                                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%', color: '#888' }}>
+                                    <div style={{ textAlign: 'center' }}>
+                                        <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>💬</div>
+                                        <div>اختر محادثة للبدء</div>
+                                    </div>
+                                </div>
+                            )}
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+
+        // Groups Page Component
+        function GroupsPage({ navigateTo, student, updateStudentData }) {
+            const [showCreateGroup, setShowCreateGroup] = useState(false);
+            const [showJoinGroup, setShowJoinGroup] = useState(false);
+            const [newGroupName, setNewGroupName] = useState('');
+            const [newGroupDescription, setNewGroupDescription] = useState('');
+            const [joinCode, setJoinCode] = useState('');
+            const [selectedGroup, setSelectedGroup] = useState(null);
+
+            const [groups, setGroups] = useState([
+                { 
+                    id: 1, 
+                    name: 'مجموعة الرياضيات المتقدمة', 
+                    description: 'مجموعة لدراسة الرياضيات المتقدمة',
+                    members: 15, 
+                    code: 'MATH-2024',
+                    isMember: true
+                },
+                { 
+                    id: 2, 
+                    name: 'نادي البرمجة', 
+                    description: 'مشاريع برمجية ومسابقات',
+                    members: 23, 
+                    code: 'CODE-2024',
+                    isMember: true
+                },
+                { 
+                    id: 3, 
+                    name: 'مجموعة المشروع النهائي', 
+                    description: 'تعاون على المشروع النهائي',
+                    members: 8, 
+                    code: 'PROJ-2024',
+                    isMember: false
+                }
+            ]);
+
+            const handleCreateGroup = () => {
+                if (newGroupName && newGroupDescription) {
+                    const newGroup = {
+                        id: Date.now(),
+                        name: newGroupName,
+                        description: newGroupDescription,
+                        members: 1,
+                        code: `GRP-${Math.random().toString(36).substr(2, 6).toUpperCase()}`,
+                        isMember: true
+                    };
+                    setGroups([...groups, newGroup]);
+                    setNewGroupName('');
+                    setNewGroupDescription('');
+                    setShowCreateGroup(false);
+                    alert('✓ تم إنشاء المجموعة بنجاح!');
+                }
+            };
+
+            const handleJoinGroup = () => {
+                if (joinCode) {
+                    const group = groups.find(g => g.code === joinCode.toUpperCase());
+                    if (group) {
+                        const updatedGroups = groups.map(g => 
+                            g.id === group.id ? { ...g, isMember: true, members: g.members + 1 } : g
+                        );
+                        setGroups(updatedGroups);
+                        setJoinCode('');
+                        setShowJoinGroup(false);
+                        alert(`✓ انضممت إلى مجموعة "${group.name}"!`);
+                    } else {
+                        alert('⚠️ الكود غير صحيح!');
+                    }
+                }
+            };
+
+            const handleGroupClick = (group) => {
+                if (group.isMember) {
+                    setSelectedGroup(group);
+                } else {
+                    alert('⚠️ يجب الانضمام للمجموعة أولاً');
+                }
+            };
+
+            if (selectedGroup) {
+                return (
+                    <div>
+                        <button className="back-button" onClick={() => setSelectedGroup(null)}>
+                            ← العودة للمجموعات
+                        </button>
+
+                        <div className="welcome-section">
+                            <h2>{selectedGroup.name}</h2>
+                            <p>{selectedGroup.description}</p>
+                            <div style={{ marginTop: '1rem', display: 'flex', gap: '1rem' }}>
+                                <div className="stat-item">
+                                    <div className="stat-label">الأعضاء</div>
+                                    <div className="stat-value">{selectedGroup.members}</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="info-card">
+                            <h3>كود الدعوة</h3>
+                            <div className="invite-code">{selectedGroup.code}</div>
+                            <p style={{ color: '#888', fontSize: '0.9rem', textAlign: 'center' }}>
+                                شارك هذا الكود مع أصدقائك للانضمام للمجموعة
+                            </p>
+                        </div>
+
+                        <div className="info-card" style={{ marginTop: '1rem' }}>
+                            <h3>محتوى المجموعة</h3>
+                            <div style={{ textAlign: 'center', padding: '2rem', color: '#888' }}>
+                                <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>📚</div>
+                                <div>سيتم إضافة الملفات والمحادثات قريبًا...</div>
+                            </div>
+                        </div>
+                    </div>
+                );
+            }
+
+            return (
+                <div>
+                    <button className="back-button" onClick={() => navigateTo('home')}>
+                        ← العودة للرئيسية
+                    </button>
+
+                    <div className="welcome-section">
+                        <h2>المجموعات الدراسية</h2>
+                        <p>انضم إلى المجموعات أو أنشئ مجموعتك الخاصة</p>
+                        <div style={{ display: 'flex', gap: '1rem', marginTop: '1rem' }}>
+                            <button className="btn" onClick={() => setShowCreateGroup(!showCreateGroup)} style={{ flex: 1 }}>
+                                ➕ إنشاء مجموعة
+                            </button>
+                            <button className="btn-secondary" onClick={() => setShowJoinGroup(!showJoinGroup)} style={{ flex: 1 }}>
+                                🔗 الانضمام بكود
+                            </button>
+                        </div>
+                    </div>
+
+                    {showCreateGroup && (
+                        <div className="info-card" style={{ marginBottom: '1.5rem' }}>
+                            <h3>إنشاء مجموعة جديدة</h3>
+                            <div className="form-group">
+                                <label>اسم المجموعة</label>
+                                <input 
+                                    type="text"
+                                    value={newGroupName}
+                                    onChange={(e) => setNewGroupName(e.target.value)}
+                                    placeholder="مثال: مجموعة الفيزياء"
+                                    style={{
+                                        width: '100%',
+                                        padding: '0.75rem',
+                                        background: 'rgba(30, 35, 55, 0.8)',
+                                        border: '1px solid rgba(100, 150, 255, 0.3)',
+                                        borderRadius: '6px',
+                                        color: '#fff'
+                                    }}
+                                />
+                            </div>
+                            <div className="form-group">
+                                <label>الوصف</label>
+                                <textarea
+                                    value={newGroupDescription}
+                                    onChange={(e) => setNewGroupDescription(e.target.value)}
+                                    placeholder="وصف المجموعة..."
+                                    style={{
+                                        width: '100%',
+                                        minHeight: '100px',
+                                        padding: '0.75rem',
+                                        background: 'rgba(30, 35, 55, 0.8)',
+                                        border: '1px solid rgba(100, 150, 255, 0.3)',
+                                        borderRadius: '6px',
+                                        color: '#fff',
+                                        resize: 'vertical'
+                                    }}
+                                />
+                            </div>
+                            <button className="btn" onClick={handleCreateGroup}>
+                                ✓ إنشاء المجموعة
+                            </button>
+                        </div>
+                    )}
+
+                    {showJoinGroup && (
+                        <div className="info-card" style={{ marginBottom: '1.5rem' }}>
+                            <h3>الانضمام لمجموعة</h3>
+                            <div className="form-group">
+                                <label>كود الدعوة</label>
+                                <input 
+                                    type="text"
+                                    value={joinCode}
+                                    onChange={(e) => setJoinCode(e.target.value)}
+                                    placeholder="مثال: MATH-2024"
+                                    style={{
+                                        width: '100%',
+                                        padding: '0.75rem',
+                                        background: 'rgba(30, 35, 55, 0.8)',
+                                        border: '1px solid rgba(100, 150, 255, 0.3)',
+                                        borderRadius: '6px',
+                                        color: '#fff',
+                                        fontFamily: 'monospace',
+                                        fontSize: '1.1rem',
+                                        textTransform: 'uppercase'
+                                    }}
+                                />
+                            </div>
+                            <button className="btn" onClick={handleJoinGroup}>
+                                ✓ الانضمام
+                            </button>
+                        </div>
+                    )}
+
+                    <div className="groups-grid">
+                        {groups.map(group => (
+                            <div key={group.id} className="group-card" onClick={() => handleGroupClick(group)}>
+                                <div className="group-header">
+                                    <div className="group-icon">👥</div>
+                                    {group.isMember && (
+                                        <div className="status-badge status-completed">✓ عضو</div>
+                                    )}
+                                </div>
+                                <h3 style={{ fontSize: '1.1rem', marginBottom: '0.5rem', color: '#fff' }}>
+                                    {group.name}
+                                </h3>
+                                <p style={{ color: '#888', fontSize: '0.9rem', marginBottom: '1rem' }}>
+                                    {group.description}
+                                </p>
+                                <div className="group-members">
+                                    {group.members} عضو
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            );
+        }
+
+        // AcadFace Page Component
+        function AcadFacePage({ navigateTo, student }) {
+            const [posts, setPosts] = useState([
+                {
+                    id: 1,
+                    author: 'سارة الأحمدي',
+                    authorAvatar: 'س',
+                    division: 'L1',
+                    time: 'منذ ساعتين',
+                    content: 'اليوم انتهيت من مشروع الفلسفة! 🎓📚 كان صعباً لكن تعلمت الكثير عن نظريات المعرفة 🧠✨',
+                    likes: 24,
+                    comments: 5,
+                    shares: 2,
+                    liked: false,
+                    commentsList: [
+                        { id: 1, author: 'أحمد محمد', avatar: 'أ', text: 'مبروك! متى موعد العرض التقديمي؟ 🎉' },
+                        { id: 2, author: 'نور الدين', avatar: 'ن', text: 'رائع! ممكن تشاركينا ملخص عن المشروع؟ 📖' }
+                    ]
+                },
+                {
+                    id: 2,
+                    author: 'محمد العتيبي',
+                    authorAvatar: 'م',
+                    division: 'L2',
+                    time: 'منذ 5 ساعات',
+                    content: 'هل أحد يعرف حل هذه المعادلة؟ 🤔💭\nx² + 2x - 15 = 0\n\nمحتاج مساعدة عاجلة! 🆘',
+                    likes: 12,
+                    comments: 8,
+                    shares: 1,
+                    liked: true,
+                    commentsList: [
+                        { id: 1, author: 'ليلى حسن', avatar: 'ل', text: 'استخدم القانون العام! الحل: x = 3 أو x = -5 ✅' },
+                        { id: 2, author: 'عمر خالد', avatar: 'ع', text: 'يمكن التحليل: (x+5)(x-3)=0 🎯' }
+                    ]
+                },
+                {
+                    id: 3,
+                    author: 'د. فاطمة الزهراني',
+                    authorAvatar: 'د',
+                    division: 'L3',
+                    time: 'أمس',
+                    content: 'تذكير لطلاب قسم العلوم الاجتماعية 📣\n\nمحاضرة علم النفس التطوري غداً الساعة 10 صباحاً 🕙\nلا تنسوا إحضار الكتب المقررة 📚✏️',
+                    likes: 45,
+                    comments: 12,
+                    shares: 8,
+                    liked: false,
+                    commentsList: []
+                },
+                {
+                    id: 4,
+                    author: 'يوسف الشمري',
+                    authorAvatar: 'ي',
+                    division: 'L2',
+                    time: 'منذ 3 أيام',
+                    content: 'انتهينا من بناء الروبوت الخاص بالمسابقة! 🤖⚙️\nالفريق بذل جهداً كبيراً والنتيجة مذهلة 🏆💪\n\n#مشروع_التخرج #هندسة_الروبوتات',
+                    likes: 89,
+                    comments: 23,
+                    shares: 15,
+                    liked: true,
+                    commentsList: []
+                }
+            ]);
+
+            const [newPost, setNewPost] = useState('');
+            const [showComments, setShowComments] = useState({});
+            const [newComment, setNewComment] = useState({});
+
+            // Custom AcadFace Emojis
+            const customEmojis = [
+                { symbol: '🎓', name: 'graduation' },
+                { symbol: '📚', name: 'books' },
+                { symbol: '✏️', name: 'pencil' },
+                { symbol: '🧠', name: 'brain' },
+                { symbol: '💡', name: 'idea' },
+                { symbol: '🔬', name: 'microscope' },
+                { symbol: '⚗️', name: 'chemistry' },
+                { symbol: '📊', name: 'chart' },
+                { symbol: '🎯', name: 'target' },
+                { symbol: '✨', name: 'sparkles' },
+                { symbol: '🚀', name: 'rocket' },
+                { symbol: '💪', name: 'muscle' },
+                { symbol: '🏆', name: 'trophy' },
+                { symbol: '⭐', name: 'star' },
+                { symbol: '🎨', name: 'art' }
+            ];
+
+            const [suggestedPages] = useState([
+                { id: 1, name: 'نادي البرمجة', avatar: '💻', followers: 234 },
+                { id: 2, name: 'مجتمع الرياضيات', avatar: '➗', followers: 189 },
+                { id: 3, name: 'مكتبة إيثيريا', avatar: '📖', followers: 567 },
+                { id: 4, name: 'نادي الفلسفة', avatar: '🤔', followers: 145 }
+            ]);
+
+            const [trendingTopics] = useState([
+                { tag: 'مشروع_التخرج', count: 45 },
+                { tag: 'اختبارات_الفصل', count: 38 },
+                { tag: 'هندسة_الروبوتات', count: 22 },
+                { tag: 'فلسفة_المعرفة', count: 18 }
+            ]);
+
+            const handleCreatePost = () => {
+                if (newPost.trim()) {
+                    const post = {
+                        id: Date.now(),
+                        author: student.name,
+                        authorAvatar: student.avatar,
+                        division: student.division,
+                        time: 'الآن',
+                        content: newPost,
+                        likes: 0,
+                        comments: 0,
+                        shares: 0,
+                        liked: false,
+                        commentsList: []
+                    };
+                    setPosts([post, ...posts]);
+                    setNewPost('');
+                    alert('✓ تم نشر المنشور بنجاح!');
+                }
+            };
+
+            const handleLike = (postId) => {
+                setPosts(posts.map(post => {
+                    if (post.id === postId) {
+                        return {
+                            ...post,
+                            liked: !post.liked,
+                            likes: post.liked ? post.likes - 1 : post.likes + 1
+                        };
+                    }
+                    return post;
+                }));
+            };
+
+            const toggleComments = (postId) => {
+                setShowComments(prev => ({
+                    ...prev,
+                    [postId]: !prev[postId]
+                }));
+            };
+
+            const handleAddComment = (postId) => {
+                const commentText = newComment[postId];
+                if (commentText && commentText.trim()) {
+                    setPosts(posts.map(post => {
+                        if (post.id === postId) {
+                            return {
+                                ...post,
+                                comments: post.comments + 1,
+                                commentsList: [
+                                    ...post.commentsList,
+                                    {
+                                        id: Date.now(),
+                                        author: student.name,
+                                        avatar: student.avatar,
+                                        text: commentText
+                                    }
+                                ]
+                            };
+                        }
+                        return post;
+                    }));
+                    setNewComment({ ...newComment, [postId]: '' });
+                }
+            };
+
+            const insertEmoji = (emoji) => {
+                setNewPost(prev => prev + emoji);
+            };
+
+            return (
+                <div>
+                    <button className="back-button" onClick={() => navigateTo('home')}>
+                        ← العودة للرئيسية
+                    </button>
+
+                    <div className="welcome-section" style={{ marginBottom: '1.5rem' }}>
+                        <h2>🎭 AcadFace</h2>
+                        <p>شبكة التواصل الاجتماعي الأكاديمية</p>
+                    </div>
+
+                    <div className="acadface-container">
+                        {/* Sidebar */}
+                        <div className="acadface-sidebar">
+                            <div className="sidebar-section">
+                                <h3>📋 القائمة</h3>
+                                <div className="sidebar-item">
+                                    <div style={{ fontWeight: 600, color: '#fff' }}>🏠 الصفحة الرئيسية</div>
+                                </div>
+                                <div className="sidebar-item">
+                                    <div style={{ fontWeight: 600, color: '#fff' }}>👤 ملفي الشخصي</div>
+                                </div>
+                                <div className="sidebar-item">
+                                    <div style={{ fontWeight: 600, color: '#fff' }}>📄 الصفحات</div>
+                                </div>
+                                <div className="sidebar-item">
+                                    <div style={{ fontWeight: 600, color: '#fff' }}>🔔 الإشعارات</div>
+                                </div>
+                            </div>
+
+                            <div className="sidebar-section">
+                                <h3>#️⃣ الوسوم الرائجة</h3>
+                                {trendingTopics.map(topic => (
+                                    <div key={topic.tag} className="sidebar-item">
+                                        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                                            <span style={{ color: '#667eea' }}>#{topic.tag}</span>
+                                            <span style={{ color: '#888', fontSize: '0.85rem' }}>{topic.count} منشور</span>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+
+                        {/* Main Feed */}
+                        <div className="acadface-main">
+                            {/* Post Creator */}
+                            <div className="post-creator">
+                                <h3 style={{ marginBottom: '1rem', color: '#fff' }}>✍️ ما الجديد؟</h3>
+                                <textarea
+                                    className="post-input"
+                                    value={newPost}
+                                    onChange={(e) => setNewPost(e.target.value)}
+                                    placeholder="شارك أفكارك مع المجتمع الأكاديمي..."
+                                />
+                                <div className="post-actions">
+                                    <div className="emoji-picker">
+                                        {customEmojis.map(emoji => (
+                                            <button
+                                                key={emoji.name}
+                                                className="emoji-btn"
+                                                onClick={() => insertEmoji(emoji.symbol)}
+                                                title={emoji.name}
+                                            >
+                                                {emoji.symbol}
+                                            </button>
+                                        ))}
+                                    </div>
+                                    <button className="btn" onClick={handleCreatePost} style={{ width: 'auto', padding: '0.75rem 2rem' }}>
+                                        📤 نشر
+                                    </button>
+                                </div>
+                            </div>
+
+                            {/* Posts Feed */}
+                            <div className="posts-feed">
+                                {posts.map(post => (
+                                    <div key={post.id} className="post-card">
+                                        <div className="post-header">
+                                            <div className="post-author">
+                                                <div className="post-avatar">{post.authorAvatar}</div>
+                                                <div className="post-author-info">
+                                                    <div className="post-author-name">{post.author}</div>
+                                                    <div className="post-time">
+                                                        {post.division} • {post.time}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div className="post-content">{post.content}</div>
+
+                                        <div className="post-interactions">
+                                            <button 
+                                                className={`interaction-btn ${post.liked ? 'active' : ''}`}
+                                                onClick={() => handleLike(post.id)}
+                                            >
+                                                {post.liked ? '❤️' : '🤍'} <span className="interaction-count">{post.likes}</span>
+                                            </button>
+                                            <button 
+                                                className="interaction-btn"
+                                                onClick={() => toggleComments(post.id)}
+                                            >
+                                                💬 <span className="interaction-count">{post.comments}</span>
+                                            </button>
+                                            <button className="interaction-btn">
+                                                🔄 <span className="interaction-count">{post.shares}</span>
+                                            </button>
+                                        </div>
+
+                                        {showComments[post.id] && (
+                                            <div className="comments-section">
+                                                {post.commentsList.map(comment => (
+                                                    <div key={comment.id} className="comment-item">
+                                                        <div className="comment-avatar">{comment.avatar}</div>
+                                                        <div className="comment-content">
+                                                            <div className="comment-author">{comment.author}</div>
+                                                            <div className="comment-text">{comment.text}</div>
+                                                        </div>
+                                                    </div>
+                                                ))}
+                                                <div className="comment-input-container">
+                                                    <input
+                                                        className="comment-input"
+                                                        value={newComment[post.id] || ''}
+                                                        onChange={(e) => setNewComment({ ...newComment, [post.id]: e.target.value })}
+                                                        placeholder="اكتب تعليقاً..."
+                                                        onKeyPress={(e) => {
+                                                            if (e.key === 'Enter') {
+                                                                handleAddComment(post.id);
+                                                            }
+                                                        }}
+                                                    />
+                                                    <button 
+                                                        className="send-button"
+                                                        onClick={() => handleAddComment(post.id)}
+                                                    >
+                                                        إرسال
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        )}
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+
+                        {/* Right Widgets */}
+                        <div className="acadface-widgets">
+                            <div className="sidebar-section">
+                                <h3>📄 صفحات مقترحة</h3>
+                                <div className="pages-list">
+                                    {suggestedPages.map(page => (
+                                        <div key={page.id} className="page-item">
+                                            <div className="page-avatar">{page.avatar}</div>
+                                            <div className="page-info">
+                                                <div className="page-name">{page.name}</div>
+                                                <div className="page-followers">{page.followers} متابع</div>
+                                            </div>
+                                            <button 
+                                                className="btn-secondary" 
+                                                onClick={() => alert('✓ تمت المتابعة!')}
+                                                style={{ width: 'auto', padding: '0.5rem 1rem', fontSize: '0.85rem' }}
+                                            >
+                                                متابعة
+                                            </button>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+
+                            <div className="sidebar-section">
+                                <h3>🎭 رموز AcadFace</h3>
+                                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: '0.5rem' }}>
+                                    {customEmojis.map(emoji => (
+                                        <div 
+                                            key={emoji.name}
+                                            className="emoji-btn"
+                                            title={emoji.name}
+                                            style={{ textAlign: 'center', fontSize: '1.5rem' }}
+                                        >
+                                            {emoji.symbol}
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+
+        // Render App
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<AcademyOS />);
+    </script>
+</body>
+</html>
